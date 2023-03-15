@@ -14,7 +14,7 @@ func main() {
 
 	fmt.Printf("cap_slice1 = %d\n", cap(n1))
 
-	n2 := make([]int, 4) //here the capacity and length will be 4
+	n2 := make([]int, 4) //here the length and capacity  will be 4
 
 	fmt.Printf("Slice2 = %v\n", n2)
 
