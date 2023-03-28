@@ -68,93 +68,86 @@ func GetCompany(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
 
 	rows, err := db.Query(query)
 	if err != nil {
-		fmt.Println("db query err:", err)
-	}
+		fmt.Println("error:", err)
+	} else {
 
-	var company []Companys
+		var company []Companys
 
-	for rows.Next() {
-		var companyid int
-		var companyname string
-		var ceo string
-		var phonenum int
+		for rows.Next() {
+			var companyid int
+			var companyname string
+			var ceo string
+			var phonenum int
 
-		if err := rows.Scan(&companyid, &companyname, &ceo, &phonenum); err != nil {
+			if err := rows.Scan(&companyid, &companyname, &ceo, &phonenum); err != nil {
 
-			fmt.Println("rows error:", err)
+				fmt.Println("rows error:", err)
 
+			}
+
+			fmt.Printf("Company id = %d, Company name = %s,Ceo = %s, Phone num = %d\n", companyid, companyname, ceo, phonenum)
+			company = append(company, Companys{Compny_id: companyid, Company_name: companyname, Ceo: ceo, Phonenum: phonenum})
 		}
 
-		fmt.Printf("Company id = %d, Company name = %s,Ceo = %s, Phone num = %d\n", companyid, companyname, ceo, phonenum)
-		company = append(company, Companys{Compny_id: companyid, Company_name: companyname, Ceo: ceo, Phonenum: phonenum})
+		var response = JsonResponse{Type: "success", Data: company, Message: "All data received"}
+		json.NewEncoder(w).Encode(response)
 	}
-
-	var response = JsonResponse{Type: "success", Data: company, Message: "All data received"}
-	json.NewEncoder(w).Encode(response)
 
 }
 
 func PostCompany(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
 	db := setupDB()
 
-	var companyid int
-	var companyname string
-	var ceo string
-	var phonenum int
+	var companys []Companys
 
-	var company []Companys
-
-	fmt.Println("Enter company id")
-	fmt.Scan(&companyid)
-	fmt.Println("Enter brand name")
-	fmt.Scan(&companyname)
-	fmt.Println("Enter CEO name")
-	fmt.Scan(&ceo)
-	fmt.Println("Enter phonenumber")
-	fmt.Scan(&phonenum)
-	fmt.Println("Done")
+	var company Companys
+	json.NewDecoder(r.Body).Decode(&company)
 
 	query := "INSERT INTO company VALUES ($1, $2, $3,$4)"
-	_, err := db.Query(query, companyid, companyname, ceo, phonenum)
-	company = append(company, Companys{Compny_id: companyid, Company_name: companyname, Ceo: ceo, Phonenum: phonenum})
+
+	_, err := db.Query(query, company.Compny_id, company.Company_name, company.Ceo, company.Phonenum)
+	companys = append(companys, company)
 
 	if err != nil {
-		fmt.Println("db query err at post:", err)
+		fmt.Println("Mismatching fields:", err)
+	} else {
+
+		var response = JsonResponse{Type: "success", Data: companys, Message: "One data Posted succesfully"}
+		json.NewEncoder(w).Encode(response)
+
+		//json.NewEncoder(w).Encode(company)
 	}
-
-	var response = JsonResponse{Type: "success", Data: company, Message: "One data Posted succesfully"}
-	json.NewEncoder(w).Encode(response)
-
-	//json.NewEncoder(w).Encode(company)
 
 }
 
 func DeleteCompany(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
 	db := setupDB()
 
-	var companyid int
-
-	//var laptop []Laptops
-
-	fmt.Println("Enter the id you want to delete")
-	fmt.Scan(&companyid)
+	var company Companys
+	json.NewDecoder(r.Body).Decode(&company)
 
 	query := "DELETE FROM company WHERE cmpy_id = $1"
 
-	_, err := db.Query(query, companyid)
+	_, err := db.Query(query, company.Compny_id)
 	if err != nil {
-		fmt.Println("id not exist:", err)
+		fmt.Println("Error:", err)
+	} else {
+		fmt.Println("id does not exsist")
 	}
 
-	w.Write([]byte("deleted")) // to get notification on postman ,like println
+	//w.Write([]byte("deleted")) // to get notification on postman ,like println
+	//fmt.Println("okayyy")
 }
 
 func UpdateCompany(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
 	db := setupDB()
 
-	query := "UPDATE company set ceo = 'vk' WHERE cmpy_id = 8"
+	var company Companys
+	json.NewDecoder(r.Body).Decode(&company)
 
-	_, err := db.Query(query)
+	query := "UPDATE company set ceo = $1 WHERE cmpy_id = $2"
+
+	_, err := db.Query(query, company.Ceo, company.Compny_id)
 	if err != nil {
 		fmt.Println("update error:", err)
 	}
