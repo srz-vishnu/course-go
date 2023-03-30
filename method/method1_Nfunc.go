@@ -12,7 +12,7 @@ type Student struct {
 	class int
 }
 
-func printStudentDetails(s Student) {
+func printStudentDetails(s Student) { // this example is dealing with function, method avumbol parameter eduth front il vaykum
 
 	fmt.Printf("%s with ID number %d is in class %d \n", s.name, s.id, s.class)
 
@@ -55,7 +55,7 @@ func main() {
 
 // }
 
-// func (s Student) printStudentDetails() {
+// func (s Student) printStudentDetails() {     // it is method
 
 // fmt.Printf("%s with ID number %d is in class %d \n", s.name, s.id, s.class)
 

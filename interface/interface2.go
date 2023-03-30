@@ -4,26 +4,21 @@ import (
 	"fmt"
 )
 
-type Plant interface {
-	Grow() string
+type Plant interface { // step1 interface created
+	Grow() string // mentioning the method here step 4
 }
 
-type Mango struct {
-}
+type Mango struct{} //step 2 is to create a struct
+type Orange struct{}
+type Apple struct{}
 
-func (m Mango) Grow() string {
+func (m Mango) Grow() string { //step 3 method is created for each struct
 	return "mango can grow"
-}
-
-type Apple struct {
 }
 
 func (a Apple) Grow() string {
 	return "apple can grow"
 
-}
-
-type Orange struct {
 }
 
 func (o Orange) Grow() string {
@@ -39,5 +34,3 @@ func main() {
 	}
 
 }
-
-//vfbb

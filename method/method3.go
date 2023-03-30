@@ -36,7 +36,7 @@ func main() {
 
 	st1.changeDetails(35, 11) //changes made inside a method with a point reciver are visible to the caller
 
-	//(&st1).changeDetails(35, 11)  //can use both 47 n 49
+	//(&st1).changeDetails(35, 11)  //can use both 37 n 39
 
 	fmt.Printf("After id: %d and After class: %d \n", st1.id, st1.class)
 

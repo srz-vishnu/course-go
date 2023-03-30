@@ -1,0 +1,45 @@
+
+
+step 
+
+defining a interface with methods on it 
+to have methods we have to define an struct
+then we create a method(//receiver parameter variable as struct type)
+
+ex:
+
+interface define cheythu with 2 methods
+
+type tank interface {
+	Tankarea() float64
+	Tankvolume() float64
+}
+
+then a struct
+
+type measurement struct {
+	radius float64
+	height float64
+}
+
+ini methods create cheyum, we know methods are like functions with receievr parameter, 
+tank interface il declare cheytha 2 methods define cheyunu
+
+func (m measurement) Tankarea() float64 {
+	return 2*m.radius*m.height +
+		2*3.14*m.radius*m.radius
+}
+
+func (m measurement) Tankvolume() float64 {
+
+	return 3.14 * m.radius * m.radius * m.height
+}
+
+func main il bakki execute akunu printing
+
+
+imp points
+----------
+
+interface, struct , method venam
+interface il define akiya oru method use akilla enkil error anne, means methods defined inside interface should be used

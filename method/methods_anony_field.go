@@ -3,6 +3,7 @@ package main
 import "fmt"
 
 type parent struct {
+	id        int
 	firstName string
 
 	lastName string
@@ -20,7 +21,7 @@ type student struct {
 
 func (p parent) printParent() {
 
-	fmt.Printf("%s %s is the name of a parent \n", p.firstName, p.lastName)
+	fmt.Printf("%s %s is the name of a parent with id %d\n", p.firstName, p.lastName, p.id)
 
 }
 
@@ -39,6 +40,7 @@ func main() {
 			firstName: "Andrew",
 
 			lastName: "Greg",
+			id:       5,
 		},
 	}
 
@@ -46,6 +48,6 @@ func main() {
 
 	//st1.parent.printParent()
 
-	// fmt.Println(st1.parent) method ila verum normal struct anenkil igane print akam
+	// fmt.Println(st1.parent) //method ila verum normal struct anenkil igane print akam
 
 }
